@@ -9,7 +9,7 @@ To run the server, run `bun src/server.ts` and to run the client, run `bun src/c
 ## Roadmap
 
 - [x] Set up project folder structure
-- [ ] Create Player class and logic
+- [x] Create Player class and logic
 - [ ] Implement GameServer class for managing players and game state
 - [ ] Implement GameClient class for player input and communication
 - [ ] Implement server - client communcation using UDP sockets
