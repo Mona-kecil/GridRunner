@@ -1,9 +1,11 @@
 export default class Player {
+	port: number;
 	id: number;
 	xPos: number;
 	yPos: number;
 
-	constructor(id: number, xPos: number, yPos: number) {
+	constructor(port: number, id: number, xPos: number, yPos: number) {
+		this.port = port;
 		this.id = id;
 		this.xPos = xPos;
 		this.yPos = yPos;
