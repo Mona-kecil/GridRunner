@@ -1,0 +1,15 @@
+{
+  "name": "gridrunner",
+  "module": "src/server.ts",
+  "type": "module",
+  "scripts": {
+    "server": "bun src/server.ts",
+    "client": "bun src/client.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
