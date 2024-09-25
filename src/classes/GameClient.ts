@@ -1,4 +1,5 @@
 import Player from './Player.ts';
+import type StandardPacket from '../types/standardPacket.ts';
 
 export default class GameClient {
 	player: Player;
@@ -9,13 +10,48 @@ export default class GameClient {
 		this.clientSocket = clientSocket;
 	}
 
-	sendMove(move: string) {
-		const data = {
-			id: this.player.id,
-			port: this.player.port,
-			type: 'move',
-			direction: move,
-		};
-		this.clientSocket.send(JSON.stringify(data));
+	sendData(type: StandardPacket['type'], direction?: StandardPacket['direction']) {
+		if (type === 'move') {
+			const data: StandardPacket = {
+				id: this.player.id,
+				port: this.player.port,
+				xPos: this.player.xPos,
+				yPos: this.player.yPos,
+				type: 'move',
+				direction: direction,
+			};
+			this.clientSocket.send(JSON.stringify(data));
+		} else if (type === 'kill') {
+			const data: StandardPacket = {
+				id: this.player.id,
+				port: this.player.port,
+				xPos: this.player.xPos,
+				yPos: this.player.yPos,
+				type: 'kill',
+			};
+			this.clientSocket.send(JSON.stringify(data));
+		} else if (type === 'keep-alive') {
+			const data: StandardPacket = {
+				id: this.player.id,
+				port: this.player.port,
+				xPos: this.player.xPos,
+				yPos: this.player.yPos,
+				type: 'keep-alive',
+			};
+			this.clientSocket.send(JSON.stringify(data));
+		} else if (type === 'connect') {
+			const data: StandardPacket = {
+				id: this.player.id,
+				port: this.player.port,
+				xPos: this.player.xPos,
+				yPos: this.player.yPos,
+				type: 'connect',
+			};
+			this.clientSocket.send(JSON.stringify(data));
+		}
+	}
+
+	getPos() {
+		console.log(this.player.xPos, this.player.yPos);
 	}
 }

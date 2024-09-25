@@ -17,6 +17,10 @@ export default class GameServer {
         this.activePlayers = this.activePlayers.filter((p) => p.id !== player.id);
     }
 
+    getPlayer(id: number) {
+        return this.activePlayers.find((p) => p.id === id);
+    }
+
     broadcast(data: string) {
         this.activePlayers.forEach((player) => {
             this.serverSocket.send(data, player.port, '127.0.0.1');

@@ -1,41 +1,51 @@
 import GameServer from './classes/GameServer.ts';
 import Player from './classes/Player.ts';
+import type StandardPacket from './types/standardPacket.ts';
 
 const server = new GameServer(
-	Bun.udpSocket({
+	await Bun.udpSocket({
 		port: 12345,
 		socket: {
 			data(socket, buf, port, address) {
-				const data = JSON.parse(buf.toString());
-				const player = new Player(data.port, data.id, 0, 0);
+				let data: StandardPacket = JSON.parse(buf.toString());
+				let player = server.getPlayer(data.id);
+
+				if (!player) {
+					player = new Player(data.port, data.id, data.xPos, data.yPos);
+				}
 
 				if (data.type === 'connect') {
 					onClientConnect(player);
 					playerTimeout(player);
 				} else if (data.type === 'keep-alive') {
-					clearTimeout(player.connected);
+					if (player.connected) {
+						clearTimeout(player.connected);
+					}
 					playerTimeout(player);
 				} else if (data.type === 'move') {
-					const x = player.xPos;
-					const y = player.yPos;
-
+					const { xPos, yPos } = player;
 					switch (data.direction) {
 						case 'up':
-							player.move(x, y - 1);
+							player.move(xPos, yPos - 1);
 							break;
 						case 'down':
-							player.move(x, y + 1);
+							player.move(xPos, yPos + 1);
 							break;
 						case 'left':
-							player.move(x - 1, y);
+							player.move(xPos - 1, yPos);
 							break;
 						case 'right':
-							player.move(x + 1, y);
+							player.move(xPos + 1, yPos);
 							break;
 						default:
 							break;
-                        }
+					}
+					console.log(`Player ${player.id} -> ${player.getPos()}`);
+					data.xPos = player.xPos;
+					data.yPos = player.yPos;
+					server.broadcast(JSON.stringify(data));
 				} else if (data.type === 'kill') {
+					clearTimeout(player.connected);
 					onClientDisconnect(player);
 				} else {
 					console.log(
@@ -64,3 +74,10 @@ function playerTimeout(player: Player) {
 		onClientDisconnect(player);
 	}, 3000);
 }
+
+// Kick every player on CTRL + C and terminate the server
+process.on('SIGINT', () => {
+	console.log('Ctrl + C detected, exiting...');
+	server.broadcast('kill');
+	process.exit();
+});

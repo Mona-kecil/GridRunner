@@ -16,4 +16,8 @@ export default class Player {
 		this.xPos = x;
 		this.yPos = y;
 	}
+
+	getPos() {
+		return `${this.xPos},${this.yPos}`;
+	}
 }
