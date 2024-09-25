@@ -1,6 +1,6 @@
 # gridrunner
 
-A simple grid game written in TypeScript using Bun.
+A simple client-server communication using UDP sockets, implemented in Bun.
 
 ## Getting Started
 
@@ -10,7 +10,7 @@ To run the server, run `bun src/server.ts` and to run the client, run `bun src/c
 
 - [x] Set up project folder structure
 - [x] Create Player class and logic
-- [x] Implement GameServer class for managing players and game state
+- [x] Implement GameServer class for managing players
 - [x] Implement GameClient class for player input and communication
 - [x] Implement server side logic
 - [x] Implement client side logic
