@@ -3,6 +3,7 @@ export default class Player {
 	id: number;
 	xPos: number;
 	yPos: number;
+	connected?: Timer;
 
 	constructor(port: number, id: number, xPos: number, yPos: number) {
 		this.port = port;

@@ -1,11 +1,11 @@
 import Player from "./Player.ts";
 
 export default class GameServer {
-    socket: any;
+    serverSocket: any;
     activePlayers: Player[];
 
-    constructor(socket: any) {
-        this.socket = socket;
+    constructor(serverSocket: any) {
+        this.serverSocket = serverSocket;
         this.activePlayers = [];
     }
 
@@ -19,7 +19,7 @@ export default class GameServer {
 
     broadcast(data: string) {
         this.activePlayers.forEach((player) => {
-            this.socket.send(data, player.port, '127.0.0.1');
+            this.serverSocket.send(data, player.port, '127.0.0.1');
         })
     }
 }

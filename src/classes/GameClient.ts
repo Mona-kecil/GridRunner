@@ -1,12 +1,12 @@
 import Player from './Player.ts';
 
-class GameClient {
+export default class GameClient {
 	player: Player;
-	socket: any;
+	clientSocket: any;
 
-	constructor(player: Player, socket: any) {
+	constructor(player: Player, clientSocket: any) {
 		this.player = player;
-		this.socket = socket;
+		this.clientSocket = clientSocket;
 	}
 
 	sendMove(move: string) {
@@ -16,6 +16,6 @@ class GameClient {
 			type: 'move',
 			direction: move,
 		};
-		this.socket.send(JSON.stringify(data));
+		this.clientSocket.send(JSON.stringify(data));
 	}
 }
